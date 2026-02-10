@@ -14,7 +14,7 @@ ALLOWED_HOSTS = [h.strip() for h in os.environ.get('ALLOWED_HOSTS', 'localhost,1
 
 
 # Application definition
-SITE_ID = 2
+SITE_ID = int(os.environ.get("SITE_ID", "1"))
 
 INSTALLED_APPS = [
     "rest_framework",
@@ -145,11 +145,17 @@ LOGOUT_REDIRECT_URL = f"{FRONTEND_URL}/"
 ACCOUNT_LOGOUT_REDIRECT_URL = f"{FRONTEND_URL}/"
 
 # CORS settings
-CORS_ALLOWED_ORIGINS = [o.strip() for o in os.environ.get('CORS_ALLOWED_ORIGINS', '').split(',') if o.strip()]
+CORS_ALLOWED_ORIGINS = [o.strip() for o in os.environ.get(
+    'CORS_ALLOWED_ORIGINS',
+    'http://localhost:3000,http://127.0.0.1:3000'
+).split(',') if o.strip()]
 CORS_ALLOW_CREDENTIALS = True
 
 # CSRF settings
-CSRF_TRUSTED_ORIGINS = [o.strip() for o in os.environ.get('CSRF_TRUSTED_ORIGINS', '').split(',') if o.strip()]
+CSRF_TRUSTED_ORIGINS = [o.strip() for o in os.environ.get(
+    'CSRF_TRUSTED_ORIGINS',
+    'http://localhost:3000,http://127.0.0.1:3000'
+).split(',') if o.strip()]
 
 # Session and Cookie settings
 SESSION_COOKIE_HTTPONLY = True
