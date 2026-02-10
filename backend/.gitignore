@@ -1,0 +1,17 @@
+# Local Django database
+db.sqlite3
+*.sqlite3
+
+# Python
+__pycache__/
+*.pyc
+
+# Virtual environments
+.venv/
+venv/
+
+# Static build output
+staticfiles/
+
+# Env files
+.env
