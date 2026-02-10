@@ -2,14 +2,19 @@ from django.http import JsonResponse
 from django.contrib.auth import logout
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
-from django.views.decorators.http import require_POST
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from .models import Challenge, UserChallenge
 from .serializers import ChallengeSerializer, UserChallengeSerializer
+from django.views.decorators.csrf import ensure_csrf_cookie
+from django.db import transaction
+from django.db.models import F
+from django.db.models import Sum
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
 
-
+@ensure_csrf_cookie
 def me(request):
     """Check if user is authenticated and return user data"""
     if not request.user.is_authenticated:
@@ -44,36 +49,37 @@ def challenges_list(request):
     return Response(serializer.data)
 
 
+@csrf_exempt 
 @api_view(['POST'])
 def submit_flag(request, challenge_id):
-    """Submit a flag for a challenge"""
     if not request.user.is_authenticated:
         return Response({"error": "Authentication required"}, status=status.HTTP_401_UNAUTHORIZED)
-    
-    try:
-        challenge = Challenge.objects.get(id=challenge_id, is_active=True)
-    except Challenge.DoesNotExist:
-        return Response({"error": "Challenge not found"}, status=status.HTTP_404_NOT_FOUND)
-    
 
-    if UserChallenge.objects.filter(user=request.user, challenge=challenge).exists():
-        return Response({"error": "Challenge already completed"}, status=status.HTTP_400_BAD_REQUEST)
-    
     submitted_flag = request.data.get('flag', '').strip()
-    
-    if submitted_flag == challenge.flag:
-        UserChallenge.objects.create(user=request.user, challenge=challenge)
-        return Response({
-            "success": True,
-            "message": "Correct! Challenge completed!",
-            "points": challenge.points
-        })
-    else:
-        # Incorrect flag
-        return Response({
-            "success": False,
-            "message": "Incorrect flag. Try again!"
-        }, status=status.HTTP_400_BAD_REQUEST)
+
+    with transaction.atomic():
+        try:
+            challenge = Challenge.objects.select_for_update().get(id=challenge_id, is_active=True)
+        except Challenge.DoesNotExist:
+            return Response({"error": "Challenge not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        if UserChallenge.objects.filter(user=request.user, challenge=challenge).exists():
+            return Response({"error": "Challenge already completed"}, status=status.HTTP_400_BAD_REQUEST)
+
+        if submitted_flag != challenge.flag:
+            return Response({"success": False, "message": "Incorrect flag. Try again!"}, status=status.HTTP_400_BAD_REQUEST)
+
+        awarded = challenge.current_points
+
+        UserChallenge.objects.create(user=request.user, challenge=challenge, awarded_points=awarded)
+
+        Challenge.objects.filter(id=challenge.id).update(solves_count=F('solves_count') + 1)
+
+    return Response({
+        "success": True,
+        "message": "Correct! Challenge completed!",
+        "points": awarded 
+    })
 
 
 @api_view(['GET'])
@@ -82,8 +88,8 @@ def user_stats(request):
     if not request.user.is_authenticated:
         return Response({"error": "Authentication required"}, status=status.HTTP_401_UNAUTHORIZED)
     
-    completed = UserChallenge.objects.filter(user=request.user)
-    total_points = sum(uc.challenge.points for uc in completed)
+    completed = UserChallenge.objects.filter(user=request.user).order_by('-completed_at')
+    total_points = completed.aggregate(total=Sum('awarded_points'))['total'] or 0
     
     return Response({
         "challenges_completed": completed.count(),
@@ -93,13 +99,14 @@ def user_stats(request):
 
 
 @api_view(['GET'])
+@permission_classes([AllowAny])
 def scoreboard(request):
     """Get top users by points"""
     from django.contrib.auth.models import User
     from django.db.models import Sum, Count
     
     users = User.objects.annotate(
-        total_points=Sum('completed_challenges__challenge__points'),
+        total_points=Sum('completed_challenges__awarded_points'),
         challenges_count=Count('completed_challenges')
     ).filter(total_points__isnull=False).order_by('-total_points', 'challenges_count')[:10]
     

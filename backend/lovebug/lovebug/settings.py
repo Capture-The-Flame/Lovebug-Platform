@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-4th6rp-o3y-&9$sb&j$nrf$$vfi!o($sj(8=lof0@6g)tk-w9*
 DEBUG = True
 
 # FIX: Add both localhost and 127.0.0.1
-ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+ALLOWED_HOSTS = ["localhost"]
 
 
 # Application definition
@@ -168,12 +168,16 @@ ACCOUNT_LOGOUT_REDIRECT_URL = "http://localhost:3000/"
 
 # CORS settings
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000", 
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
 ]
 CORS_ALLOW_CREDENTIALS = True
 
 # CSRF settings
-CSRF_TRUSTED_ORIGINS = ['http://localhost:3000']
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:3000',
+    'http://127.0.0.1:3000',
+]
 
 # Session and Cookie settings
 SESSION_COOKIE_HTTPONLY = True
@@ -183,3 +187,16 @@ SESSION_COOKIE_SAMESITE = "Lax"
 CSRF_COOKIE_HTTPONLY = False
 CSRF_COOKIE_SECURE = False  # Set to True in production with HTTPS
 CSRF_COOKIE_SAMESITE = "Lax"
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+}
+
+SOCIALACCOUNT_ADAPTER = "login.adapters.SocialAccountAdapter"
+SOCIALACCOUNT_AUTO_SIGNUP = True

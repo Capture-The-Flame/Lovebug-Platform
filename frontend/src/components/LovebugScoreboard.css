@@ -25,17 +25,10 @@
 
 .lovebug-icon {
   font-size: 40px;
-  animation: bounce 2s infinite;
+  /* Removed bounce animation */
 }
 
-@keyframes bounce {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
+/* Removed @keyframes bounce */
 
 .logo h1 {
   font-size: 28px;
@@ -53,13 +46,13 @@
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
-  transition: all 0.3s ease;
   font-family: 'Courier New', monospace;
+  /* Removed transition and hover transform */
 }
 
 .nav-button:hover {
   background: #ff1493;
-  transform: translateY(-2px);
+  /* Removed transform */
 }
 
 /* Content */
@@ -89,7 +82,7 @@
   margin: 0;
 }
 
-/* Error Message */
+
 .error-message {
   background: rgba(255, 255, 255, 0.9);
   border: 3px solid #ff6b6b;
@@ -101,7 +94,7 @@
   color: #d946a6;
 }
 
-/* No Scores State */
+
 .no-scores {
   text-align: center;
   padding: 60px 20px;
@@ -126,7 +119,7 @@
   opacity: 0.6;
 }
 
-/* Scoreboard Table */
+
 .scoreboard-table-container {
   background: rgba(255, 255, 255, 0.95);
   border: 3px solid #d946a6;
@@ -158,12 +151,12 @@
 
 .scoreboard-table tbody tr {
   border-bottom: 2px solid #ffe0f0;
-  transition: all 0.3s ease;
+  /* Removed transition */
 }
 
 .scoreboard-table tbody tr:hover {
   background: rgba(255, 182, 193, 0.2);
-  transform: scale(1.01);
+  /* Removed transform */
 }
 
 .scoreboard-table tbody tr.top-three {
@@ -273,11 +266,11 @@
   padding: 30px;
   border-radius: 12px;
   text-align: center;
-  transition: transform 0.3s ease;
+  /* Removed transition */
 }
 
 .stat-card:hover {
-  transform: translateY(-5px);
+  /* Removed transform */
 }
 
 .stat-label {

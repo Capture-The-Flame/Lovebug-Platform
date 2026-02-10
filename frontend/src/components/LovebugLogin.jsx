@@ -54,9 +54,6 @@ const BinaryHeart = () => {
             <button className="menu-item" onClick={handleGoogleLogin}>
               Register
             </button>
-            <button className="menu-item" onClick={() => window.location.href = '/scoreboard'}>
-              Scoreboard
-            </button>
           </div>
         </div>
       </div>

@@ -8,7 +8,7 @@ body, html {
   overflow-x: hidden;
 }
 
-/* ========== LOGIN STYLES ========== */
+
 .lovebug-login {
   font-family: 'Space Mono', monospace;
   background-image: url("../assets/lovebug-bg.png");
@@ -321,7 +321,6 @@ body, html {
   text-align: center;
   font-size: 28px;
   margin-top: 20px;
-  animation: bounce 1s ease infinite;
 }
 
 @keyframes bounce {

@@ -1,0 +1,233 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modal-content {
+  background: #1a1a1a;
+  border: 2px solid #ff69b4;
+  border-radius: 12px;
+  max-width: 600px;
+  width: 90%;
+  max-height: 85vh;
+  overflow-y: auto;
+  position: relative;
+  animation: slideUp 0.3s ease-out;
+  box-shadow: 0 0 30px rgba(255, 105, 180, 0.3);
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.modal-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: transparent;
+  border: none;
+  color: #ff69b4;
+  font-size: 32px;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  border-radius: 50%;
+  z-index: 10;
+}
+
+.modal-close:hover {
+  background: rgba(255, 105, 180, 0.1);
+  transform: rotate(90deg);
+}
+
+.modal-header {
+  padding: 25px 30px 20px;
+  border-bottom: 1px solid rgba(255, 105, 180, 0.2);
+}
+
+.modal-header h2 {
+  color: #ff69b4;
+  margin: 0;
+  font-size: 28px;
+  padding-right: 40px; /* Space for close button */
+}
+
+.modal-body {
+  padding: 25px 30px 30px;
+}
+
+.challenge-prompt {
+  margin-bottom: 20px;
+}
+
+.challenge-prompt h3 {
+  color: #ff69b4;
+  font-size: 18px;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.challenge-prompt p {
+  color: #e0e0e0;
+  line-height: 1.6;
+  font-size: 15px;
+  white-space: pre-wrap;
+  margin: 0;
+}
+
+.hints-section {
+  margin: 20px 0;
+  padding: 15px;
+  background: rgba(255, 105, 180, 0.05);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 105, 180, 0.15);
+}
+
+.hint-item {
+  margin-bottom: 10px;
+}
+
+.hint-item:last-child {
+  margin-bottom: 0;
+}
+
+.hint-toggle {
+  background: transparent;
+  border: 1px solid rgba(255, 105, 180, 0.3);
+  color: #ff69b4;
+  padding: 10px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  width: 100%;
+  text-align: left;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.hint-toggle:hover {
+  background: rgba(255, 105, 180, 0.1);
+  border-color: #ff69b4;
+}
+
+.hint-content {
+  margin-top: 8px;
+  padding: 12px;
+  background: rgba(255, 105, 180, 0.08);
+  border-left: 3px solid #ff69b4;
+  border-radius: 4px;
+  color: #e0e0e0;
+  font-size: 14px;
+  line-height: 1.6;
+  animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    max-height: 0;
+  }
+  to {
+    opacity: 1;
+    max-height: 200px;
+  }
+}
+
+.flag-form {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.flag-input {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(255, 105, 180, 0.3);
+  color: white;
+  padding: 14px 18px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-family: 'Courier New', monospace;
+  transition: all 0.2s;
+}
+
+.flag-input:focus {
+  outline: none;
+  border-color: #ff69b4;
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 15px rgba(255, 105, 180, 0.2);
+}
+
+.flag-input::placeholder {
+  color: rgba(255, 105, 180, 0.5);
+}
+
+.submit-button {
+  background: linear-gradient(135deg, #ff1493, #ff69b4);
+  color: white;
+  border: none;
+  padding: 14px 32px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.submit-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 20px rgba(255, 105, 180, 0.4);
+}
+
+.submit-button:active {
+  transform: translateY(0);
+}
+
+/* Scrollbar styling */
+.modal-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+  background: rgba(255, 105, 180, 0.05);
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+  background: rgba(255, 105, 180, 0.3);
+  border-radius: 4px;
+}
+
+.modal-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 105, 180, 0.5);
+}

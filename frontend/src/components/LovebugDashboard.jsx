@@ -1,17 +1,57 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import ChallengeModal from './ChallengeModal';
+import Notification from './Notification';
 import './LovebugDashboard.css';
 
 const API_BASE = process.env.REACT_APP_API_BASE;
+
+function getCookie(name) {
+  let cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim();
+      if (cookie.substring(0, name.length + 1) === (name + '=')) {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+  return cookieValue;
+}
+
+const POLL_MS = 7000;
 
 const LovebugDashboard = ({ user, onLogout, onNavigate }) => {
   const [challenges, setChallenges] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [selectedChallenge, setSelectedChallenge] = useState(null);
+  const [notification, setNotification] = useState(null);
 
   useEffect(() => {
-    loadChallenges();
-  }, []);
+    let mounted = true;
+
+    const fetchOnce = async () => {
+      if (!mounted) return;
+      await loadChallenges();
+    };
+
+    fetchOnce();
+
+    const id = setInterval(() => {
+      if (!selectedChallenge) {
+        loadChallenges();
+      }
+    }, POLL_MS);
+
+    return () => {
+      mounted = false;
+      clearInterval(id);
+    };
+  }, [selectedChallenge]);
+
 
   const loadChallenges = async () => {
     try {
@@ -19,6 +59,7 @@ const LovebugDashboard = ({ user, onLogout, onNavigate }) => {
         withCredentials: true
       });
       setChallenges(response.data);
+      setError(null); 
     } catch (error) {
       console.error('Failed to load challenges:', error);
       setError('Failed to load challenges.');
@@ -27,9 +68,64 @@ const LovebugDashboard = ({ user, onLogout, onNavigate }) => {
     }
   };
 
+
   const handleChallengeClick = (challenge) => {
-    console.log('Challenge clicked:', challenge);
-    alert(`Challenge: ${challenge.title}\n\nThis would open a modal to submit the flag.\n\nFor now, this is just a placeholder.`);
+    setSelectedChallenge(challenge);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedChallenge(null);
+  };
+
+  const handleSubmitFlag = async (challengeId, flag) => {
+    const csrftoken = getCookie('csrftoken');
+    
+    try {
+      const response = await axios.post(
+        `${API_BASE}/api/challenges/${challengeId}/submit/`,
+        { flag },
+        { 
+          withCredentials: true,
+          headers: {
+            'X-CSRFToken': csrftoken,
+            'Content-Type': 'application/json',
+          }
+        }
+      );
+
+      if (response.data.success) {
+        setNotification({
+          type: 'success',
+          message: `Correct! You earned ${response.data.points_awarded} points!`
+        });
+        
+        handleCloseModal();
+        loadChallenges();
+      }
+    } catch (error) {
+      console.error('Error submitting flag:', error);
+      
+      if (error.response?.data?.message) {
+        setNotification({
+          type: 'error',
+          message: error.response.data.message
+        });
+      } else if (error.response?.data?.error) {
+        setNotification({
+          type: 'error',
+          message: error.response.data.error
+        });
+      } else {
+        setNotification({
+          type: 'error',
+          message: 'Failed to submit flag. Please try again.'
+        });
+      }
+    }
+  };
+
+  const handleCloseNotification = () => {
+    setNotification(null);
   };
 
   const BinaryHeart = () => {
@@ -128,10 +224,9 @@ const LovebugDashboard = ({ user, onLogout, onNavigate }) => {
                 <h3 className="challenge-title">{challenge.title}</h3>
                 <p className="challenge-points">{challenge.points}</p>
                 <p className="challenge-category">{challenge.category}</p>
-                <p className="challenge-description">{challenge.description}</p>
                 {challenge.completed && (
                   <div className="completion-hearts">
-                    ❤️ ❤️ ❤️
+                    ❤️❤️❤️
                   </div>
                 )}
               </div>
@@ -139,6 +234,22 @@ const LovebugDashboard = ({ user, onLogout, onNavigate }) => {
           </div>
         )}
       </main>
+
+      {selectedChallenge && (
+        <ChallengeModal
+          challenge={selectedChallenge}
+          onClose={handleCloseModal}
+          onSubmit={handleSubmitFlag}
+        />
+      )}
+
+      {notification && (
+        <Notification
+          message={notification.message}
+          type={notification.type}
+          onClose={handleCloseNotification}
+        />
+      )}
     </div>
   );
 };

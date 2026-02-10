@@ -60,14 +60,7 @@ const LovebugScoreboard = ({ onBack, user }) => {
     );
   };
 
-  const getRankEmoji = (rank) => {
-    switch(rank) {
-      case 1: return '🥇';
-      case 2: return '🥈';
-      case 3: return '🥉';
-      default: return '🏆';
-    }
-  };
+
 
   if (loading) {
     return (
@@ -122,7 +115,6 @@ const LovebugScoreboard = ({ onBack, user }) => {
                   <th>Rank</th>
                   <th>Player</th>
                   <th>Email</th>
-                  <th>Challenges</th>
                   <th>Points</th>
                 </tr>
               </thead>
@@ -133,7 +125,6 @@ const LovebugScoreboard = ({ onBack, user }) => {
                     className={`scoreboard-row ${user && user.email === player.email ? 'current-user' : ''} ${player.rank <= 3 ? 'top-three' : ''}`}
                   >
                     <td className="rank-cell">
-                      <span className="rank-emoji">{getRankEmoji(player.rank)}</span>
                       <span className="rank-number">#{player.rank}</span>
                     </td>
                     <td className="username-cell">
@@ -143,9 +134,6 @@ const LovebugScoreboard = ({ onBack, user }) => {
                       )}
                     </td>
                     <td className="email-cell">{player.email}</td>
-                    <td className="challenges-cell">
-                      <span className="challenges-count">{player.challenges_completed}</span>
-                    </td>
                     <td className="points-cell">
                       <span className="points-value">{player.points}</span>
                     </td>
