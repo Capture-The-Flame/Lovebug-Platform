@@ -11,6 +11,7 @@ class Challenge(models.Model):
         ('Pwn', 'Binary Exploitation'),
         ('Misc', 'Miscellaneous'),
         ('Networking', 'Networking'),
+        ('AI', 'Artificial Intelligence'),
     ]
 
     title = models.CharField(max_length=200)
