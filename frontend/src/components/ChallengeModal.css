@@ -259,3 +259,24 @@
 .download-button:active {
   transform: translateY(0);
 }
+
+.live-site-button {
+  display: inline-block;
+  padding: 12px 24px;
+  background: rgba(79, 172, 254, 0.1); 
+  color: #4facfe;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 16px;
+  transition: all 0.2s ease;
+  border: 1px solid rgba(79, 172, 254, 0.3);
+  width: 100%; /* Optional: Makes it full width like the hints */
+  text-align: center;
+}
+
+.live-site-button:hover {
+  background: rgba(79, 172, 254, 0.2);
+  border-color: #4facfe;
+  color: #00f2fe;
+}

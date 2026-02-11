@@ -21,6 +21,8 @@ const ChallengeModal = ({ challenge, onClose, onSubmit }) => {
     }));
   };
 
+  const isLiveSite = challenge.artifact_url?.includes('onrender.com');
+
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
@@ -38,18 +40,28 @@ const ChallengeModal = ({ challenge, onClose, onSubmit }) => {
             </div>
           )}
 
-          {/* Download Button */}
-          {challenge.artifact_url && (
+            {challenge.artifact_url && (
             <div className="download-section">
-              <a 
-                href={challenge.artifact_url} 
-                download 
-                className="download-button"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Download Challenge File
-              </a>
+              {isLiveSite ? (
+                <a 
+                  href={challenge.artifact_url} 
+                  className="live-site-button"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Visit Challenge Website →
+                </a>
+              ) : (
+                <a 
+                  href={challenge.artifact_url} 
+                  download 
+                  className="download-button"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Download Challenge File
+                </a>
+              )}
             </div>
           )}
 
