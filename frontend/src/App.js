@@ -4,7 +4,7 @@ import LovebugLogin from './components/LovebugLogin';
 import LovebugDashboard from './components/LovebugDashboard';
 import LovebugScoreboard from './components/LovebugScoreboard';
 
-const API_BASE = process.env.REACT_APP_API_BASE;
+// const API_BASE = process.env.REACT_APP_API_BASE;
 
 function App() {
   const [user, setUser] = useState(null);
@@ -17,7 +17,7 @@ function App() {
 
   const checkAuth = async () => {
     try {
-      const response = await axios.get(`${API_BASE}/api/me/`, {
+      const response = await axios.get(`/api/me/`, {
         withCredentials: true
       });
       
@@ -37,7 +37,7 @@ function App() {
 
   const handleLogout = async () => {
     try {
-      await axios.post(`${API_BASE}/api/logout/`, {}, {
+      await axios.post(`/api/logout/`, {}, {
         withCredentials: true
       });
       setUser(null);

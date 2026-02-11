@@ -1,11 +1,11 @@
 import React from 'react';
 import './LovebugLogin.css';
 
-const API_BASE = process.env.REACT_APP_API_BASE;
+// const API_BASE = process.env.REACT_APP_API_BASE;
 
 const LovebugLogin = () => {
   const handleGoogleLogin = () => {
-    window.location.href = `${API_BASE}/accounts/google/login/`;
+    window.location.href = `/accounts/google/login/`;
   };
 
   const BinaryHeart = () => {

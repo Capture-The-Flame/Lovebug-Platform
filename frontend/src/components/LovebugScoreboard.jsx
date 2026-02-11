@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './LovebugScoreboard.css';
 
-const API_BASE = process.env.REACT_APP_API_BASE;
+// const API_BASE = process.env.REACT_APP_API_BASE;
 
 const LovebugScoreboard = ({ onBack, user }) => {
   const [scoreboard, setScoreboard] = useState([]);
@@ -15,7 +15,7 @@ const LovebugScoreboard = ({ onBack, user }) => {
 
   const loadScoreboard = async () => {
     try {
-      const response = await axios.get(`${API_BASE}/api/scoreboard/`, {
+      const response = await axios.get(`/api/scoreboard/`, {
         withCredentials: true
       });
       setScoreboard(response.data);

@@ -4,7 +4,7 @@ import ChallengeModal from './ChallengeModal';
 import Notification from './Notification';
 import './LovebugDashboard.css';
 
-const API_BASE = process.env.REACT_APP_API_BASE;
+// const API_BASE = process.env.REACT_APP_API_BASE;
 
 function getCookie(name) {
   let cookieValue = null;
@@ -55,7 +55,7 @@ const LovebugDashboard = ({ user, onLogout, onNavigate }) => {
 
   const loadChallenges = async () => {
     try {
-      const response = await axios.get(`${API_BASE}/api/challenges/`, {
+      const response = await axios.get(`/api/challenges/`, {
         withCredentials: true
       });
       setChallenges(response.data);
@@ -82,7 +82,7 @@ const LovebugDashboard = ({ user, onLogout, onNavigate }) => {
     
     try {
       const response = await axios.post(
-        `${API_BASE}/api/challenges/${challengeId}/submit/`,
+        `/api/challenges/${challengeId}/submit/`,
         { flag },
         { 
           withCredentials: true,
@@ -200,7 +200,7 @@ const LovebugDashboard = ({ user, onLogout, onNavigate }) => {
         {error && (
           <div className="error-message">
             <p>{error}</p>
-            <p>Go to <a href={`${API_BASE}/admin`} target="_blank" rel="noopener noreferrer">Django Admin</a> to add challenges.</p>
+            <p>Go to <a href={`/admin`} target="_blank" rel="noopener noreferrer">Django Admin</a> to add challenges.</p>
           </div>
         )}
 
@@ -209,7 +209,7 @@ const LovebugDashboard = ({ user, onLogout, onNavigate }) => {
             <BinaryHeart />
             <h2>No Challenges Yet!</h2>
             <p>Ask your admin to add some challenges in the Django admin panel.</p>
-            <a href={`${API_BASE}/admin`} target="_blank" rel="noopener noreferrer" className="admin-link">
+            <a href={`/admin`} target="_blank" rel="noopener noreferrer" className="admin-link">
               Go to Admin Panel
             </a>
           </div>
