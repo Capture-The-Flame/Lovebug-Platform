@@ -91,7 +91,7 @@ const LovebugScoreboard = ({ onBack, user }) => {
 
       <main className="scoreboard-content">
         <div className="scoreboard-title-section">
-          <h2 className="page-title">🏆 Scoreboard 🏆</h2>
+          <h2 className="page-title">Scoreboard</h2>
           <p className="subtitle">Top Hackers by Points</p>
         </div>
 
@@ -114,28 +114,30 @@ const LovebugScoreboard = ({ onBack, user }) => {
                 <tr>
                   <th>Rank</th>
                   <th>Player</th>
-                  <th>Email</th>
-                  <th>Points</th>
+                  <th className="points-header">Points</th>
+                  <th className="completed-header">Completed</th>
                 </tr>
               </thead>
               <tbody>
                 {scoreboard.map((player) => (
                   <tr 
                     key={player.rank}
-                    className={`scoreboard-row ${user && user.email === player.email ? 'current-user' : ''} ${player.rank <= 3 ? 'top-three' : ''}`}
+                    className={`scoreboard-row ${user && user.username === player.username ? 'current-user' : ''} ${player.rank <= 3 ? 'top-three' : ''}`}
                   >
                     <td className="rank-cell">
                       <span className="rank-number">#{player.rank}</span>
                     </td>
                     <td className="username-cell">
                       {player.username}
-                      {user && user.email === player.email && (
+                      {user && user.username === player.username && (
                         <span className="you-badge"> (You)</span>
                       )}
                     </td>
-                    <td className="email-cell">{player.email}</td>
                     <td className="points-cell">
                       <span className="points-value">{player.points}</span>
+                    </td>
+                    <td className="challenges-cell">
+                      {player.challenges_completed}
                     </td>
                   </tr>
                 ))}
@@ -152,19 +154,19 @@ const LovebugScoreboard = ({ onBack, user }) => {
               <div className="stat-card">
                 <div className="stat-label">Your Rank</div>
                 <div className="stat-value">
-                  {scoreboard.find(p => p.email === user.email)?.rank || 'Unranked'}
+                  {scoreboard.find(p => p.username === user.username)?.rank || 'Unranked'}
                 </div>
               </div>
               <div className="stat-card">
                 <div className="stat-label">Total Points</div>
                 <div className="stat-value">
-                  {scoreboard.find(p => p.email === user.email)?.points || 0}
+                  {scoreboard.find(p => p.username === user.username)?.points || 0}
                 </div>
               </div>
               <div className="stat-card">
                 <div className="stat-label">Challenges Completed</div>
                 <div className="stat-value">
-                  {scoreboard.find(p => p.email === user.email)?.challenges_completed || 0}
+                  {scoreboard.find(p => p.username === user.username)?.challenges_completed || 0}
                 </div>
               </div>
             </div>

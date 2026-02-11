@@ -130,10 +130,7 @@
   backdrop-filter: blur(10px);
 }
 
-.scoreboard-table {
-  width: 100%;
-  border-collapse: collapse;
-}
+
 
 .scoreboard-table thead {
   background: #d946a6;
@@ -342,4 +339,49 @@
   .stat-value {
     font-size: 28px;
   }
+}
+
+.scoreboard-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;    
+}
+
+.scoreboard-table thead,
+.scoreboard-table tbody,
+.scoreboard-table tr {
+  width: 100%;
+}
+
+.scoreboard-table th,
+.scoreboard-table td {
+  box-sizing: border-box;
+}
+
+/* Rank */
+.scoreboard-table th:nth-child(1),
+.scoreboard-table td:nth-child(1) {
+  width: 120px;
+}
+
+
+
+/* Points */
+.scoreboard-table th:nth-child(3),
+.scoreboard-table td:nth-child(3) {
+  width: 180px;
+  text-align: right;
+}
+
+/* Completed */
+.scoreboard-table th:nth-child(4),
+.scoreboard-table td:nth-child(4) {
+  width: 140px;
+  text-align: center;
+}
+
+.challenges-cell {
+  text-align: center;
+  font-weight: bold;
+  color: #d946a6;
 }

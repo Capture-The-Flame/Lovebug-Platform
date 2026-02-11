@@ -38,6 +38,20 @@ const ChallengeModal = ({ challenge, onClose, onSubmit }) => {
             </div>
           )}
 
+          {/* Download Button */}
+          {challenge.artifact_url && (
+            <div className="download-section">
+              <a 
+                href={challenge.artifact_url} 
+                download 
+                className="download-button"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Download Challenge File
+              </a>
+            </div>
+          )}
 
           {/* Hints Section */}
           <div className="hints-section">

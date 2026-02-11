@@ -1,45 +1,66 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './LovebugLogin.css';
 
-const API_BASE = process.env.REACT_APP_API_BASE;
 
-const LovebugLogin = () => {
-  const handleGoogleLogin = () => {
-    window.location.href = `${API_BASE}/accounts/google/login/`;
+const LovebugLogin = ({ onLoginSuccess }) => {
+  const [username, setUsername] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    
+    if (!username.trim()) {
+      setError('Please enter a username');
+      return;
+    }
+
+    setLoading(true);
+    setError('');
+
+    try {
+      localStorage.setItem('ctf_username', username.trim());
+      onLoginSuccess({ authenticated: true, username: username.trim() });
+    } catch (err) {
+      console.error('Login error:', err);
+      setError('Failed to log in');
+    } finally {
+      setLoading(false);
+    }
   };
 
-const BinaryHeart = () => {
-  const heartLines = [
-    '***********                  ***********',
-    '*****************            *****************',
-    '*********************        *********************',
-    '***********************      ***********************',
-    '************************    ************************',
-    '*************************  *************************',
-    '**************************************************',
-    '************************************************',
-    '********************************************',
-    '****************************************',
-    '**********************************',
-    '******************************',
-    '************************',
-    '********************',
-    '**************',
-    '**********',
-    '******',
-    '**',
-  ];
+  const BinaryHeart = () => {
+    const heartLines = [
+      '***********                  ***********',
+      '*****************            *****************',
+      '*********************        *********************',
+      '***********************      ***********************',
+      '************************    ************************',
+      '*************************  *************************',
+      '**************************************************',
+      '************************************************',
+      '********************************************',
+      '****************************************',
+      '**********************************',
+      '******************************',
+      '************************',
+      '********************',
+      '**************',
+      '**********',
+      '******',
+      '**',
+    ];
 
-  return (
-    <div className="binary-heart">
-      {heartLines.map((line, index) => (
-        <div key={index} className="heart-line" style={{ '--line-index': index }}>
-          {line}
-        </div>
-      ))}
-    </div>
-  );
-};
+    return (
+      <div className="binary-heart">
+        {heartLines.map((line, index) => (
+          <div key={index} className="heart-line" style={{ '--line-index': index }}>
+            {line}
+          </div>
+        ))}
+      </div>
+    );
+  };
 
   return (
     <div className="lovebug-login">
@@ -47,14 +68,25 @@ const BinaryHeart = () => {
         <BinaryHeart />
         <div className="menu-section">
           <h1 className="title">Caught the Lovebug</h1>
-          <div className="menu-options">
-            <button className="menu-item" onClick={handleGoogleLogin}>
-              Login
+          <form onSubmit={handleLogin} className="menu-options">
+            <input
+              type="text"
+              className="username-input"
+              placeholder="Enter your username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              disabled={loading}
+              autoFocus
+            />
+            {error && <div className="error-message">{error}</div>}
+            <button 
+              type="submit" 
+              className="menu-item" 
+              disabled={loading}
+            >
+              {loading ? 'Logging in...' : 'Enter CTF'}
             </button>
-            <button className="menu-item" onClick={handleGoogleLogin}>
-              Register
-            </button>
-          </div>
+          </form>
         </div>
       </div>
     </div>
