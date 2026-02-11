@@ -1,1 +1,1 @@
-web: gunicorn lovebug.wsgi --log-file -
+web: bash start.sh

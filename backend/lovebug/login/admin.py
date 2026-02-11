@@ -20,7 +20,7 @@ class ChallengeAdmin(admin.ModelAdmin):
             'fields': ('base_points', 'decrement', 'min_points', 'solves_count')
         }),
         ('Challenge Content', {
-            'fields': ('description', 'prompt', 'flag')
+            'fields': ('description', 'prompt', 'flag', 'artifact_path')
         }),
         ('Hints', {
             'fields': ('hint_1', 'hint_2', 'hint_3'),
@@ -38,8 +38,8 @@ class ChallengeAdmin(admin.ModelAdmin):
 
 @admin.register(UserChallenge)
 class UserChallengeAdmin(admin.ModelAdmin):
-    list_display = ['user', 'challenge', 'awarded_points', 'completed_at']
+    list_display = ['username', 'challenge', 'awarded_points', 'completed_at']  
     list_filter = ['completed_at', 'challenge__category']
-    search_fields = ['user__username', 'user__email', 'challenge__title']
+    search_fields = ['username', 'challenge__title']  
     ordering = ['-completed_at']
     readonly_fields = ['completed_at']

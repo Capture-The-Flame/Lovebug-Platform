@@ -39,7 +39,7 @@ SOCIALACCOUNT_PROVIDERS = {
             "profile",
             "email",
         ],
-        "AUTH_PARAMS": {"access_type": "online"}
+        "AUTH_PARAMS": {"access_type": "online"},
     }
 }
 
@@ -140,31 +140,45 @@ SOCIALACCOUNT_AUTO_SIGNUP = True  # ADD THIS BACK
 FRONTEND_URL = os.environ.get('FRONTEND_URL', 'http://localhost:3000')
 
 # Redirect URLs
-LOGIN_REDIRECT_URL = f"{FRONTEND_URL}/auth/callback"
+LOGIN_REDIRECT_URL = f"{FRONTEND_URL}/" 
 LOGOUT_REDIRECT_URL = f"{FRONTEND_URL}/"
 ACCOUNT_LOGOUT_REDIRECT_URL = f"{FRONTEND_URL}/"
 
 # CORS settings
 CORS_ALLOWED_ORIGINS = [o.strip() for o in os.environ.get(
     'CORS_ALLOWED_ORIGINS',
-    'http://localhost:3000,http://127.0.0.1:3000'
+    'https://lovebug-ctf.vercel.app'
 ).split(',') if o.strip()]
 CORS_ALLOW_CREDENTIALS = True
 
 # CSRF settings
 CSRF_TRUSTED_ORIGINS = [o.strip() for o in os.environ.get(
     'CSRF_TRUSTED_ORIGINS',
-    'http://localhost:3000,http://127.0.0.1:3000'
+    'https://lovebug-ctf.vercel.app'
 ).split(',') if o.strip()]
+
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+    'x-username',  # Add our custom header
+]
 
 # Session and Cookie settings
 SESSION_COOKIE_HTTPONLY = True
-SESSION_COOKIE_SECURE = not DEBUG  # True in production
-SESSION_COOKIE_SAMESITE = "None" if not DEBUG else "Lax"
+SESSION_COOKIE_SECURE = True  # Always True in production
+SESSION_COOKIE_SAMESITE = "None"  # CRITICAL: Must be None for cross-origin
+SESSION_COOKIE_DOMAIN = None  # Let Django handle it
 
 CSRF_COOKIE_HTTPONLY = False
-CSRF_COOKIE_SECURE = not DEBUG  # True in production
-CSRF_COOKIE_SAMESITE = "None" if not DEBUG else "Lax"
+CSRF_COOKIE_SECURE = True  # Always True in production
+CSRF_COOKIE_SAMESITE = "None"  # CRITICAL: Must be None for cross-origin
 
 # Security settings for production
 if not DEBUG:
@@ -180,6 +194,13 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.AllowAny',  
     ],
 }
+
+
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https'
+
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

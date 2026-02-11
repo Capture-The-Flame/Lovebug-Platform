@@ -1,6 +1,7 @@
 import re
 from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
 from django.utils.crypto import get_random_string
+from django.conf import settings
 
 class SocialAccountAdapter(DefaultSocialAccountAdapter):
     def populate_user(self, request, sociallogin, data):
@@ -9,7 +10,6 @@ class SocialAccountAdapter(DefaultSocialAccountAdapter):
         if not user.username:
             email = (user.email or data.get("email") or "").lower()
             base = re.sub(r"[^a-z0-9]+", "", email.split("@")[0])[:20] or "user"
-
             candidate = base
 
             from django.contrib.auth import get_user_model
@@ -21,3 +21,6 @@ class SocialAccountAdapter(DefaultSocialAccountAdapter):
             user.username = candidate
 
         return user
+    
+    def get_login_redirect_url(self, request):
+        return f"{settings.FRONTEND_URL}/auth/callback"
