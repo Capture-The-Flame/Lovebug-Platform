@@ -242,10 +242,9 @@ class ScoreboardTests(TestCase):
         
         self.assertGreaterEqual(len(data), 1)
         
-        # User 1 should be first (800 points total)
         self.assertEqual(data[0]['username'], 'user1')
         self.assertEqual(data[0]['rank'], 1)
-        self.assertEqual(data[0]['points'], 800)  # 500 + 300
+        self.assertEqual(data[0]['points'], 800) 
         self.assertEqual(data[0]['challenges_completed'], 2)
         
         if len(data) >= 2:

@@ -11,7 +11,6 @@ body, html {
 
 .lovebug-login {
   font-family: 'Space Mono', monospace;
-  /* background-image: url("../assets/lovebug-bg.png"); */
   background-color: #ffd0ee;
   background-size: cover;
   background-position: center;
@@ -31,9 +30,9 @@ body, html {
   z-index: 10;
   display: flex;
   flex-direction: row;
-  flex-wrap: nowrap;          /* 👈 prevent wrapping into a column */
+  flex-wrap: nowrap;        
   align-items: center;
-  justify-content: center;    /* looks better than space-between here */
+  justify-content: center;  
   width: min(1000px, 90%);
   gap: 60px;
 }
@@ -75,13 +74,13 @@ body, html {
   line-height: 1.2;
   color: #d946a6;
   text-align: center;
-  animation: pulse 2s ease-in-out infinite;
-   white-space: pre; 
+  white-space: pre; 
 }
 
+.binary-heart,
 .heart-line {
-  animation: flicker 3s ease-in-out infinite;
-  animation-delay: calc(var(--line-index, 0) * 0.1s);
+  animation: none !important;
+  transform: none !important;
 }
 
 @keyframes pulse {

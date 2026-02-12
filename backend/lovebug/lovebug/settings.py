@@ -4,16 +4,13 @@ import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-4th6rp-o3y-&9$sb&j$nrf$$vfi!o($sj(8=lof0@6g)tk-w9*')
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = [h.strip() for h in os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')]
 
 
-# Application definition
 SITE_ID = int(os.environ.get("SITE_ID", "1"))
 
 INSTALLED_APPS = [
@@ -75,8 +72,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'lovebug.wsgi.application'
 
-# Database
-# Use PostgreSQL in production, SQLite in development
+
 if os.environ.get('DATABASE_URL'):
     DATABASES = {
         'default': dj_database_url.config(
@@ -93,7 +89,8 @@ else:
         }
     }
 
-# Password validation
+
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -109,18 +106,18 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# Internationalization
+
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-# Static files (CSS, JavaScript, Images)
+
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# Default primary key field type
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTHENTICATION_BACKENDS = (
@@ -128,30 +125,30 @@ AUTHENTICATION_BACKENDS = (
     "allauth.account.auth_backends.AuthenticationBackend",
 )
 
-# Allauth settings
+
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_VERIFICATION = 'optional'
 SOCIALACCOUNT_LOGIN_ON_GET = True
-SOCIALACCOUNT_ADAPTER = "login.adapters.SocialAccountAdapter"  # ADD THIS BACK
-SOCIALACCOUNT_AUTO_SIGNUP = True  # ADD THIS BACK
+SOCIALACCOUNT_ADAPTER = "login.adapters.SocialAccountAdapter"  
+SOCIALACCOUNT_AUTO_SIGNUP = True  
 
-# Get frontend URL from environment
+
 FRONTEND_URL = os.environ.get('FRONTEND_URL', 'http://localhost:3000')
 
-# Redirect URLs
+
 LOGIN_REDIRECT_URL = f"{FRONTEND_URL}/" 
 LOGOUT_REDIRECT_URL = f"{FRONTEND_URL}/"
 ACCOUNT_LOGOUT_REDIRECT_URL = f"{FRONTEND_URL}/"
 
-# CORS settings
+
 CORS_ALLOWED_ORIGINS = [o.strip() for o in os.environ.get(
     'CORS_ALLOWED_ORIGINS',
     'https://lovebug-ctf.vercel.app'
 ).split(',') if o.strip()]
 CORS_ALLOW_CREDENTIALS = True
 
-# CSRF settings
+
 CSRF_TRUSTED_ORIGINS = [o.strip() for o in os.environ.get(
     'CSRF_TRUSTED_ORIGINS',
     'https://lovebug-ctf.vercel.app'
@@ -167,20 +164,20 @@ CORS_ALLOW_HEADERS = [
     'user-agent',
     'x-csrftoken',
     'x-requested-with',
-    'x-username',  # Add our custom header
+    'x-username',  
 ]
 
-# Session and Cookie settings
+
 SESSION_COOKIE_HTTPONLY = True
-SESSION_COOKIE_SECURE = True  # Always True in production
-SESSION_COOKIE_SAMESITE = "None"  # CRITICAL: Must be None for cross-origin
-SESSION_COOKIE_DOMAIN = None  # Let Django handle it
+SESSION_COOKIE_SECURE = True  
+SESSION_COOKIE_SAMESITE = "None"  
+SESSION_COOKIE_DOMAIN = None  
 
 CSRF_COOKIE_HTTPONLY = False
-CSRF_COOKIE_SECURE = True  # Always True in production
-CSRF_COOKIE_SAMESITE = "None"  # CRITICAL: Must be None for cross-origin
+CSRF_COOKIE_SECURE = True  
+CSRF_COOKIE_SAMESITE = "None" 
 
-# Security settings for production
+
 if not DEBUG:
     SECURE_SSL_REDIRECT = True
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
@@ -188,7 +185,7 @@ if not DEBUG:
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
 
-# REST Framework settings
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.SessionAuthentication',

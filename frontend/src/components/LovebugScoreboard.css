@@ -25,10 +25,8 @@
 
 .lovebug-icon {
   font-size: 40px;
-  /* Removed bounce animation */
 }
 
-/* Removed @keyframes bounce */
 
 .logo h1 {
   font-size: 28px;
@@ -47,15 +45,12 @@
   font-weight: bold;
   cursor: pointer;
   font-family: 'Courier New', monospace;
-  /* Removed transition and hover transform */
 }
 
 .nav-button:hover {
   background: #ff1493;
-  /* Removed transform */
 }
 
-/* Content */
 .scoreboard-content {
   padding: 20px 40px 60px;
   position: relative;
@@ -148,12 +143,10 @@
 
 .scoreboard-table tbody tr {
   border-bottom: 2px solid #ffe0f0;
-  /* Removed transition */
 }
 
 .scoreboard-table tbody tr:hover {
   background: rgba(255, 182, 193, 0.2);
-  /* Removed transform */
 }
 
 .scoreboard-table tbody tr.top-three {
@@ -171,7 +164,7 @@
   color: #333;
 }
 
-/* Rank Cell */
+
 .rank-cell {
   display: flex;
   align-items: center;
@@ -188,7 +181,7 @@
   font-size: 18px;
 }
 
-/* Username Cell */
+
 .username-cell {
   font-weight: bold;
   color: #d946a6;
@@ -203,12 +196,12 @@
   margin-left: 8px;
 }
 
-/* Email Cell */
+
 .email-cell {
   color: #666;
 }
 
-/* Challenges Cell */
+
 .challenges-cell {
   text-align: center;
 }
@@ -235,7 +228,7 @@
   font-size: 18px;
 }
 
-/* Your Stats Section */
+
 .your-stats {
   background: rgba(255, 255, 255, 0.95);
   border: 3px solid #d946a6;
@@ -263,11 +256,10 @@
   padding: 30px;
   border-radius: 12px;
   text-align: center;
-  /* Removed transition */
 }
 
 .stat-card:hover {
-  /* Removed transform */
+
 }
 
 .stat-label {
@@ -358,22 +350,17 @@
   box-sizing: border-box;
 }
 
-/* Rank */
 .scoreboard-table th:nth-child(1),
 .scoreboard-table td:nth-child(1) {
   width: 120px;
 }
 
-
-
-/* Points */
 .scoreboard-table th:nth-child(3),
 .scoreboard-table td:nth-child(3) {
   width: 180px;
   text-align: right;
 }
 
-/* Completed */
 .scoreboard-table th:nth-child(4),
 .scoreboard-table td:nth-child(4) {
   width: 140px;
