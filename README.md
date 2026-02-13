@@ -27,6 +27,8 @@ Holding 8 challenges made by the experience team, this platform allowed for an e
 - React
 - Django
 - PostgreSQL
+- Vercel
+- Railway
 
 <!-- <div align="center">
 
