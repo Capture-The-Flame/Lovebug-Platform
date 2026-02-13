@@ -25,7 +25,8 @@ Holding 8 challenges made by the experience team, this platform allowed for an e
 
 ## Tech stack
 - React
-- Django  
+- Django
+- PostgreSQL
 
 <!-- <div align="center">
 
